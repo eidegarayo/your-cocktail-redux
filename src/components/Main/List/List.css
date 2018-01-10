@@ -1,0 +1,7 @@
+.cocktails-list img {
+  width: 64px;
+  height: 64px;
+}
+.cocktails-list img, .media-heading {
+  cursor: pointer;
+}

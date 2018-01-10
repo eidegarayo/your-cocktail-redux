@@ -1,0 +1,9 @@
+.cocktails-filters {
+  border-right: 1px dashed rgba(255, 255, 255, 0.3);
+}
+#categorySelect {
+  color: #FFFFFF;
+}
+option {
+  color: #000000;
+}
