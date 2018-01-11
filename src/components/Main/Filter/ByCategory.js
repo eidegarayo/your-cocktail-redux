@@ -5,7 +5,7 @@ const ByCategory = (props) =>
   <Form>
     <FormGroup>
       <Label for='categorySelect'>CATEGORY</Label>
-      <Input type='select' name='categorySelect' id='categorySelect' onChange={props.select}>
+      <Input type='select' name='categorySelect' id='categorySelect' onChange={props.category}>
         <option>Select...</option>
         {
           props.categories.map((category, i) => {
