@@ -20,52 +20,18 @@ export async function getIngredientsList () {
   return ingredientsList.drinks
 }
 
-export async function getCocktailsByCat (list, cat) {
-  let cocktailsList = list
+export async function getCocktailsByCat (cat) {
   const category = cat.replace(' ', '_')
-
   const getCocktailsListByCat = await fetch(`${listByCatBaseUrl}${category}`)
-  const cocktailsListByCatDrinks = await getCocktailsListByCat.json()
-  const cocktailsListByCat = cocktailsListByCatDrinks.drinks
-
-  if (cocktailsList.length < 1) {
-    cocktailsList = cocktailsListByCat
-  } else {
-    let filteredCocktailsList = []
-    for (let i = 0; i < cocktailsList.length; i++) {
-      for (let index = 0; index < cocktailsListByCat.length; index++) {
-        if (cocktailsList[i].idDrink === cocktailsListByCat[index].idDrink) {
-          filteredCocktailsList.push(cocktailsList[i])
-        }
-      }
-    }
-    cocktailsList = filteredCocktailsList
-  }
-  return cocktailsList
+  const cocktailsListByCat = await getCocktailsListByCat.json()
+  return cocktailsListByCat.drinks
 }
 
-export async function getCocktailsByIngrs (list, ingrs) {
-  let cocktailsList = list
-  const ingredients = ingrs.pop().replace(' ', '_')
-
+export async function getCocktailsByIngrs (ingr) {
+  const ingredients = ingr.replace(' ', '_')
   const getCocktailsByIngrs = await fetch(`${listByIngrBaseUrl}${ingredients}`)
   const cocktailsByIngrsDrinks = await getCocktailsByIngrs.json()
-  const cocktailsByIngrs = cocktailsByIngrsDrinks.drinks
-
-  if (cocktailsList.length < 1) {
-    cocktailsList = cocktailsByIngrs
-  } else {
-    let filteredCocktailsList = []
-    for (let i = 0; i < cocktailsList.length; i++) {
-      for (let index = 0; index < cocktailsByIngrs.length; index++) {
-        if (cocktailsList[i].idDrink === cocktailsByIngrs[index].idDrink) {
-          filteredCocktailsList.push(cocktailsList[i])
-        }
-      }
-    }
-    cocktailsList = filteredCocktailsList
-  }
-  return cocktailsList
+  return cocktailsByIngrsDrinks.drinks
 }
 
 export async function getCocktailById (cocktailId) {

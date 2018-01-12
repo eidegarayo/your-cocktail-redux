@@ -9,7 +9,12 @@ const Filter = (props) => {
     <div className='cocktails-filters mt-5 pr-2'>
       <h3 className='mb-4'>SEARCH</h3>
       <ByCategory categories={props.categories} category={props.category} />
-      <ByIngredients ingredients={props.ingredients} ingredient={props.ingredient} />
+      <ByIngredients ingredients={props.ingredients} selectIngr={props.selectIngr} />
+      <ul>
+        {
+          props.selectedIngr.map((ingr, i) => <li key={i}>{ingr}</li>)
+        }
+      </ul>
     </div>
   )
 }

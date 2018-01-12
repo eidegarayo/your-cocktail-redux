@@ -6,6 +6,8 @@ import Photo from './Photo/Photo'
 
 import { getCategoriesList, getIngredientsList, getCocktailsByCat, getCocktailsByIngrs,  getCocktailById } from '../../services/cocktailsApi'
 
+import { filterListByIngrs } from '../../utils/utils'
+
 import './Main.css'
 
 class Main extends Component {
@@ -42,7 +44,7 @@ class Main extends Component {
     const ingredient = event.target.value
     this.setState({
       ingredients: [...this.state.ingredients, ingredient]
-    }, () => this.cocktailsByIngrs() )
+    }, () => this.cocktailsByIngrs(ingredient) )
   }
 
   handleCocktailOnClick = async event => {
@@ -55,18 +57,18 @@ class Main extends Component {
   }
 
   async cocktailsByCat () {
-    const list = this.state.cocktailsList
     const cat = this.state.category
-    const cocktailsList = await getCocktailsByCat(list, cat)
+    const cocktailsListByCat = await getCocktailsByCat(cat)  
     this.setState({
-        cocktailsList: cocktailsList
+        ingredients: [],
+        cocktailsList: cocktailsListByCat
     })
   }
 
-  async cocktailsByIngrs () {
+  async cocktailsByIngrs (ingr) {
     const list = this.state.cocktailsList
-    const ingrs = this.state.ingredients
-    const cocktailsList = await getCocktailsByIngrs(list, ingrs)
+    const listByIngr = await getCocktailsByIngrs(ingr)
+    const cocktailsList = await filterListByIngrs(list, listByIngr)
     this.setState({
         cocktailsList: cocktailsList
     })
@@ -86,10 +88,19 @@ class Main extends Component {
         <Container fluid>
           <Row>
             <Col md='3'>
-              <Filter categories={this.state.categoriesList} category={this.handleCategoryOnChange} ingredients={this.state.ingredientsList} ingredient={this.handleIngredientOnChange} />
+              <Filter
+              categories={this.state.categoriesList}
+              category={this.handleCategoryOnChange}
+              ingredients={this.state.ingredientsList}
+              selectIngr={this.handleIngredientOnChange}
+              selectedIngr={this.state.ingredients}
+              />
             </Col>
             <Col md='3'>
-              <List cocktails={this.state.cocktailsList} select={this.handleCocktailOnClick} />
+              <List
+              cocktails={this.state.cocktailsList}
+              select={this.handleCocktailOnClick}
+              />
             </Col>
             <Col md='6' className='pr-0'>
               <Photo cocktail={this.state.cocktail} />
