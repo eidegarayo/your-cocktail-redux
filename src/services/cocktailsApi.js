@@ -1,21 +1,12 @@
-/* http://www.thecocktaildb.com/api.php
-** Filtrado por ingredientes
-** http://www.thecocktaildb.com/api/json/v1/1/filter.php?i=Gin
-** Filtrado por categoría
-** http://www.thecocktaildb.com/api/json/v1/1/filter.php?c=Ordinary_Drink
-** Detalles por id
-** http://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=13060
-** Lista de ingredientes
-** http://www.thecocktaildb.com/api/json/v1/1/list.php?i=list
-** Lista de categorias
-** http://www.thecocktaildb.com/api/json/v1/1/list.php?c=list
-** Imagenes
-** http://www.thecocktaildb.com/images/ingredients/ice.png
- */
+/*  global fetch */
+/* http://www.thecocktaildb.com/api.php */
 
 const apiBaseUrl = 'http://www.thecocktaildb.com/api/json/v1/1/'
 const categoriesListUrl = `${apiBaseUrl}list.php?c=list`
 const ingredientsListUrl = `${apiBaseUrl}list.php?i=list`
+const cocktailByIdBaseUrl = `${apiBaseUrl}lookup.php?i=`
+const listByCatBaseUrl = `${apiBaseUrl}filter.php?c=`
+const listByIngrBaseUrl = `${apiBaseUrl}filter.php?i=`
 
 export async function getCategoriesList () {
   const getCategoriesList = await fetch(categoriesListUrl)
@@ -29,28 +20,56 @@ export async function getIngredientsList () {
   return ingredientsList.drinks
 }
 
-export async function getCocktailsList (cat, ingr) {
-  let cocktailsList = []
-
+export async function getCocktailsByCat (list, cat) {
+  let cocktailsList = list
   const category = cat.replace(' ', '_')
-  const ingredients = ingr.map(ingr => ingr.replace(' ', '_'))
 
-  if (category) {
-    const getCocktailsListByCat = await fetch(`http://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${category}`)
-    const cocktailsListByCat = await getCocktailsListByCat.json()
+  const getCocktailsListByCat = await fetch(`${listByCatBaseUrl}${category}`)
+  const cocktailsListByCatDrinks = await getCocktailsListByCat.json()
+  const cocktailsListByCat = cocktailsListByCatDrinks.drinks
+
+  if (cocktailsList.length < 1) {
     cocktailsList = cocktailsListByCat
-  }
-
-  if (ingredients.length > 0) {
-    let cocktailsListByIngs = {}
-
-    for (let i = 0; i < ingredients.length; i++) {
-      let ingQuery = `i=${ingredients[i]}`
-      const getCocktailsByIngs = await fetch(`http://www.thecocktaildb.com/api/json/v1/1/filter.php?${ingQuery}`)
-      const cocktailsByIngs = await getCocktailsByIngs.json()
-      cocktailsListByIngs = {...cocktailsListByIngs, cocktailsByIngs}        
+  } else {
+    let filteredCocktailsList = []
+    for (let i = 0; i < cocktailsList.length; i++) {
+      for (let index = 0; index < cocktailsListByCat.length; index++) {
+        if (cocktailsList[i].idDrink === cocktailsListByCat[index].idDrink) {
+          filteredCocktailsList.push(cocktailsList[i])
+        }
+      }
     }
-    cocktailsList = cocktailsListByIngs.cocktailsByIngs
+    cocktailsList = filteredCocktailsList
   }
   return cocktailsList
+}
+
+export async function getCocktailsByIngrs (list, ingrs) {
+  let cocktailsList = list
+  const ingredients = ingrs.pop().replace(' ', '_')
+
+  const getCocktailsByIngrs = await fetch(`${listByIngrBaseUrl}${ingredients}`)
+  const cocktailsByIngrsDrinks = await getCocktailsByIngrs.json()
+  const cocktailsByIngrs = cocktailsByIngrsDrinks.drinks
+
+  if (cocktailsList.length < 1) {
+    cocktailsList = cocktailsByIngrs
+  } else {
+    let filteredCocktailsList = []
+    for (let i = 0; i < cocktailsList.length; i++) {
+      for (let index = 0; index < cocktailsByIngrs.length; index++) {
+        if (cocktailsList[i].idDrink === cocktailsByIngrs[index].idDrink) {
+          filteredCocktailsList.push(cocktailsList[i])
+        }
+      }
+    }
+    cocktailsList = filteredCocktailsList
+  }
+  return cocktailsList
+}
+
+export async function getCocktailById (cocktailId) {
+  const getCocktailById = await fetch(`${cocktailByIdBaseUrl}${cocktailId}`)
+  const cocktailById = await getCocktailById.json()
+  return cocktailById.drinks
 }

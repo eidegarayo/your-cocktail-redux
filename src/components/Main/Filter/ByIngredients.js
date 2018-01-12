@@ -1,7 +1,7 @@
 import React from 'react'
 import { Form, FormGroup, Label, Input } from 'reactstrap'
 
-const ByIngredients = (props) =>
+const ByIngredients = props =>
   <Form>
     <FormGroup>
       <Label for='ingredientSelect'>INGREDIENTS</Label>

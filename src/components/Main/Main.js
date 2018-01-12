@@ -4,7 +4,7 @@ import Filter from './Filter/Filter'
 import List from './List/List'
 import Photo from './Photo/Photo'
 
-import { getCategoriesList, getIngredientsList, getCocktailsList } from '../../services/cocktailsApi'
+import { getCategoriesList, getIngredientsList, getCocktailsByCat, getCocktailsByIngrs,  getCocktailById } from '../../services/cocktailsApi'
 
 import './Main.css'
 
@@ -24,7 +24,6 @@ class Main extends Component {
   async componentDidMount () {
     const categoriesList = await getCategoriesList()
     const ingredientsList = await getIngredientsList()
-
     this.setState({
      categoriesList: categoriesList,
      ingredientsList: ingredientsList
@@ -32,48 +31,52 @@ class Main extends Component {
 
   }
 
-  handleCategoryOnChange = async (event) => {
+  handleCategoryOnChange = event => {
     const category = event.target.value
-    await this.setState({
+    this.setState({
       category: category
-    })
-   this.cocktailsList() 
+    }, () => this.cocktailsByCat() )
   }
 
-  handleIngredientOnChange = async (event) => {
+  handleIngredientOnChange = event => {
     const ingredient = event.target.value
-    await this.setState({
+    this.setState({
       ingredients: [...this.state.ingredients, ingredient]
-    })
-    this.cocktailsList()
+    }, () => this.cocktailsByIngrs() )
   }
 
-  handleCocktailOnClick = async (event) => {
+  handleCocktailOnClick = async event => {
     const cocktailOnClick = event.target
     const cocktailId = cocktailOnClick.getAttribute('data-cocktailid')
     await this.setState({
       cocktailId: cocktailId
     })
-    this.theCocktailById()
+    this.cocktailById() 
   }
 
-  async cocktailsList () {
+  async cocktailsByCat () {
+    const list = this.state.cocktailsList
     const cat = this.state.category
-    const ingr = this.state.ingredients
-    const cocktailsList = await getCocktailsList(cat, ingr)
-
+    const cocktailsList = await getCocktailsByCat(list, cat)
     this.setState({
         cocktailsList: cocktailsList
     })
-    
   }
 
-  async theCocktailById () {
-    const cocktailId = this.state.cocktailId
-    const getCocktailById = await fetch(`http://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${cocktailId}`)
-    const cocktailById = await getCocktailById.json()
+  async cocktailsByIngrs () {
+    const list = this.state.cocktailsList
+    const ingrs = this.state.ingredients
+    const cocktailsList = await getCocktailsByIngrs(list, ingrs)
     this.setState({
-      cocktail: cocktailById.drinks
+        cocktailsList: cocktailsList
+    })
+  }
+
+  async cocktailById () {
+    const cocktailId = this.state.cocktailId
+    const cocktail = await getCocktailById(cocktailId)
+    this.setState({
+      cocktail: cocktail
     })
   }
 

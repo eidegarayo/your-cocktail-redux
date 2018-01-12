@@ -8,8 +8,8 @@ const List = (props) => {
     <div className='cocktails-list mt-5'>
       <h3 className='mb-4'>COCKTAILS</h3>
       {
-        (props.cocktails.drinks)
-        ? props.cocktails.drinks.map((cocktail, i) => {
+        (props.cocktails)
+        ? props.cocktails.map((cocktail, i) => {
           if (cocktail.strDrinkThumb !== null) {
             return (
               <Media key={i} className='mb-4' >
