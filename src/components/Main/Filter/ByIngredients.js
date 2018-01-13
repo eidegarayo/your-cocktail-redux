@@ -5,8 +5,8 @@ const ByIngredients = props =>
   <Form>
     <FormGroup>
       <Label for='ingredientSelect'>INGREDIENTS</Label>
-      <Input type='select' name='ingredientSelect' id='ingredientSelect' onChange={props.selectIngr}>
-        <option>Select ingredients...</option>
+      <Input type='select' name='ingredientSelect' id='ingredientSelect' onChange={props.selectIngr} value='Select ingredients...'>
+        <option value=''>Select ingredients...</option>
         {
           props.ingredients.map((ingredient, i) => {
             return (

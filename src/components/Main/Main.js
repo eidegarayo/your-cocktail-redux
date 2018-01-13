@@ -23,7 +23,8 @@ class Main extends Component {
       cocktail: {}
     }
   }
-  async componentDidMount () {
+  async componentWillMount () {
+    console.log('componentWillMount')
     const categoriesList = await getCategoriesList()
     const ingredientsList = await getIngredientsList()
     this.setState({
@@ -33,14 +34,16 @@ class Main extends Component {
 
   }
 
-  handleCategoryOnChange = event => {
-    const category = event.target.value
+  handleCategoryOnChange = async event => {
+    console.log('handleCategoryOnChange')
+    const category = await event.target.value
     this.setState({
       category: category
     }, () => this.cocktailsByCat() )
   }
 
   handleIngredientOnChange = event => {
+    console.log('handleIngredientOnChange')
     const ingredient = event.target.value
     this.setState({
       ingredients: [...this.state.ingredients, ingredient]
@@ -48,6 +51,7 @@ class Main extends Component {
   }
 
   handleCocktailOnClick = async event => {
+    console.log('handleCocktailOnClick')
     const cocktailOnClick = event.target
     const cocktailId = cocktailOnClick.getAttribute('data-cocktailid')
     await this.setState({
@@ -56,9 +60,21 @@ class Main extends Component {
     this.cocktailById() 
   }
 
+  handleReset = () => {
+    console.log('handleReset')
+    this.setState({
+      category: '',
+      ingredients: [],
+      cocktailsList: [],
+      cocktailId: 0,
+      cocktail: {}
+    })
+  }
+
   async cocktailsByCat () {
+    console.log('cocktailsByCat')
     const cat = this.state.category
-    const cocktailsListByCat = await getCocktailsByCat(cat)  
+    const cocktailsListByCat = await getCocktailsByCat(cat)
     this.setState({
         ingredients: [],
         cocktailsList: cocktailsListByCat
@@ -66,15 +82,22 @@ class Main extends Component {
   }
 
   async cocktailsByIngrs (ingr) {
-    const list = this.state.cocktailsList
+    console.log('cocktailsByIngrs')
+    const list = this.state.cocktailsList || []
     const listByIngr = await getCocktailsByIngrs(ingr)
     const cocktailsList = await filterListByIngrs(list, listByIngr)
+    
+    let ingredients
+    (cocktailsList.length > 0) ? ingredients = this.state.ingredients : ingredients = []
+    
     this.setState({
-        cocktailsList: cocktailsList
+        cocktailsList: cocktailsList,
+        ingredients: ingredients
     })
   }
 
   async cocktailById () {
+    console.log('cocktailById')
     const cocktailId = this.state.cocktailId
     const cocktail = await getCocktailById(cocktailId)
     this.setState({
@@ -83,26 +106,29 @@ class Main extends Component {
   }
 
   render () {
+    console.log(this.state.category)
     return (
       <section className='cocktails'>
         <Container fluid>
           <Row>
-            <Col md='3'>
+            <Col xs="12" sm="5" md='3'>
               <Filter
               categories={this.state.categoriesList}
               category={this.handleCategoryOnChange}
+              selectedCat={this.state.category}
               ingredients={this.state.ingredientsList}
               selectIngr={this.handleIngredientOnChange}
               selectedIngr={this.state.ingredients}
+              reset={this.handleReset}
               />
             </Col>
-            <Col md='3'>
+            <Col xs="12" sm="7" md='5'>
               <List
               cocktails={this.state.cocktailsList}
               select={this.handleCocktailOnClick}
               />
             </Col>
-            <Col md='6' className='pr-0'>
+            <Col xs="12" sm="12" md='4' className='pr-0'>
               <Photo cocktail={this.state.cocktail} />
             </Col>
           </Row>

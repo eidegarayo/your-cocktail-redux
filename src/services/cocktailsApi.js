@@ -21,10 +21,12 @@ export async function getIngredientsList () {
 }
 
 export async function getCocktailsByCat (cat) {
-  const category = cat.replace(' ', '_')
-  const getCocktailsListByCat = await fetch(`${listByCatBaseUrl}${category}`)
-  const cocktailsListByCat = await getCocktailsListByCat.json()
-  return cocktailsListByCat.drinks
+  if (cat) {
+    const category = cat.replace(' ', '_')
+    const getCocktailsListByCat = await fetch(`${listByCatBaseUrl}${category}`)
+    const cocktailsListByCat = await getCocktailsListByCat.json()
+    return cocktailsListByCat.drinks
+  }
 }
 
 export async function getCocktailsByIngrs (ingr) {

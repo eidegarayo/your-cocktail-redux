@@ -1,9 +1,15 @@
 .cocktails-filters {
   border-right: 1px dashed rgba(255, 255, 255, 0.3);
 }
-#categorySelect {
-  color: #FFFFFF;
+.cocktails-filters h3 {
+  display: inline-block;
+}
+.cocktails-filters button {
+  float: right;
 }
 option {
   color: #000000;
+}
+.empty {
+  color: transparent;
 }
