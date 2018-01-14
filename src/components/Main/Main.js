@@ -24,7 +24,6 @@ class Main extends Component {
     }
   }
   async componentWillMount () {
-    console.log('componentWillMount')
     const categoriesList = await getCategoriesList()
     const ingredientsList = await getIngredientsList()
     this.setState({
@@ -35,7 +34,6 @@ class Main extends Component {
   }
 
   handleCategoryOnChange = async event => {
-    console.log('handleCategoryOnChange')
     const category = await event.target.value
     this.setState({
       category: category
@@ -43,15 +41,14 @@ class Main extends Component {
   }
 
   handleIngredientOnChange = event => {
-    console.log('handleIngredientOnChange')
     const ingredient = event.target.value
+    if (this.state.ingredients.includes(ingredient)) return
     this.setState({
       ingredients: [...this.state.ingredients, ingredient]
     }, () => this.cocktailsByIngrs(ingredient) )
   }
 
   handleCocktailOnClick = async event => {
-    console.log('handleCocktailOnClick')
     const cocktailOnClick = event.target
     const cocktailId = cocktailOnClick.getAttribute('data-cocktailid')
     await this.setState({
@@ -61,7 +58,6 @@ class Main extends Component {
   }
 
   handleReset = () => {
-    console.log('handleReset')
     this.setState({
       category: '',
       ingredients: [],
@@ -72,7 +68,6 @@ class Main extends Component {
   }
 
   async cocktailsByCat () {
-    console.log('cocktailsByCat')
     const cat = this.state.category
     const cocktailsListByCat = await getCocktailsByCat(cat)
     this.setState({
@@ -82,7 +77,6 @@ class Main extends Component {
   }
 
   async cocktailsByIngrs (ingr) {
-    console.log('cocktailsByIngrs')
     const list = this.state.cocktailsList || []
     const listByIngr = await getCocktailsByIngrs(ingr)
     const cocktailsList = await filterListByIngrs(list, listByIngr)
@@ -97,7 +91,6 @@ class Main extends Component {
   }
 
   async cocktailById () {
-    console.log('cocktailById')
     const cocktailId = this.state.cocktailId
     const cocktail = await getCocktailById(cocktailId)
     this.setState({
@@ -106,7 +99,6 @@ class Main extends Component {
   }
 
   render () {
-    console.log(this.state.category)
     return (
       <section className='cocktails'>
         <Container fluid>
