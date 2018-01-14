@@ -103,7 +103,7 @@ class Main extends Component {
       <section className='cocktails'>
         <Container fluid>
           <Row>
-            <Col xs='12' sm='5' md='3'>
+            <Col xs='12' sm='5' md='5' lg='3'>
               <Filter
               categories={this.state.categoriesList}
               category={this.handleCategoryOnChange}
@@ -114,13 +114,13 @@ class Main extends Component {
               reset={this.handleReset}
               />
             </Col>
-            <Col xs='12' sm='7' md='5'>
+            <Col xs='12' sm='7' md='7' lg='5'>
               <List
               cocktails={this.state.cocktailsList}
               select={this.handleCocktailOnClick}
               />
             </Col>
-            <Col xs='12' sm='12' md='4' className='pr-0'>
+            <Col xs='12' sm='12' md='12' lg='4'  className='pr-0'>
               <Photo cocktail={this.state.cocktail} />
             </Col>
           </Row>

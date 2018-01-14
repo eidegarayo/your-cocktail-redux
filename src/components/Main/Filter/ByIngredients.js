@@ -8,13 +8,13 @@ const ByIngredients = props => {
   return (
     <Form>
       <FormGroup>
-        <Label for='ingredientSelect'>INGREDIENTS</Label>
-        <Input type='select' name='ingredientSelect' id='ingredientSelect' onChange={props.selectIngr} value='Select ingredients...'>
+        <Label for='ingrSelect'>INGREDIENTS</Label>
+        <Input type='select' name='ingrSelect' id='ingrSelect' onChange={props.selectIngr} value='Select ingredients...'>
           <option value=''>Select ingredients...</option>
           {
-            props.ingredients.map((ingredient, i) => {
+            props.ingredients.map((ingr, i) => {
               return (
-                <option key={i}>{ingredient.strIngredient1}</option>
+                <option key={i}>{ingr.strIngredient1}</option>
               )
             })
           }

@@ -1,5 +1,0 @@
-Colores:
-- Lila oscuro: #362432
-- Lila claro: #5B4255
-- Amarillo-naranja: #E19D20
-- Lila hover:#483143

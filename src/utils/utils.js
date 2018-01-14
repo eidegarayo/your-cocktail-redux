@@ -1,6 +1,5 @@
 export async function filterListByIngrs (list, listByIngr) {
   let cocktailsList = []
-
   if (list.length < 1) {
     cocktailsList = listByIngr
   } else {

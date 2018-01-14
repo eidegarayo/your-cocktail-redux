@@ -6,7 +6,7 @@ import ByIngredients from './ByIngredients'
 
 import './Filter.css'
 
-const Filter = (props) => {
+const Filter = props => {
   return (
     <div className='cocktails-filters mt-5 pr-2'>
       <h3 className='mb-4'>SEARCH</h3>
@@ -14,7 +14,7 @@ const Filter = (props) => {
       <ByCategory categories={props.categories} category={props.category} />
       <ul>
         {
-          props.selectedCat ? <li>{props.selectedCat}</li> : <li className='empty'></li>
+          props.selectedCat ? <li>{props.selectedCat}</li> : <li className='empty' />
         }
       </ul>
       <ByIngredients ingredients={props.ingredients} selectIngr={props.selectIngr} />

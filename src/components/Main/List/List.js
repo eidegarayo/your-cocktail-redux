@@ -24,7 +24,7 @@ const List = props => {
               )
             }
           })
-          : <div>Try another category or ingredients to find your perfect cocktail</div>
+          : <Col>Try another category or ingredients to find your perfect cocktail</Col>
         }
       </Row>
     </div>

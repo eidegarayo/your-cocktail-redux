@@ -1,3 +1,6 @@
+.cocktail-detail {
+  max-width: 700px;
+}
 .cocktail-desc {
   position: relative;
 }

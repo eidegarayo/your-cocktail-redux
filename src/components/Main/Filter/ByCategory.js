@@ -12,9 +12,9 @@ const ByCategory = props => {
         <Input type='select' name='categorySelect' id='categorySelect' onChange={props.category} value='Select one category...'>
           <option value=''>Select one category...</option>
           {
-            props.categories.map((category, i) => {
+            props.categories.map((cat, i) => {
               return (
-                <option key={i} value={category.strCategory}>{category.strCategory}</option>
+                <option key={i} value={cat.strCategory}>{cat.strCategory}</option>
               )
             })
           }
