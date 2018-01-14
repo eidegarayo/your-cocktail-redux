@@ -1,13 +1,16 @@
-.cocktail-detail {
+.cocktail-desc {
   position: relative;
 }
-.cocktail-description {
+.cocktail-desc-text {
   position: absolute;
-  bottom: 10%;
+  bottom: 0;
   background-color: rgba(0, 0, 0, 0.6);
   width: 90%;
   padding: 1em;
 }
-.cocktail-description hr {
+.cocktail-desc hr {
   border-color: rgba(255, 255, 255, 0.2);
+}
+.cocktail-ingrs ul {
+  border-left: 1px dashed rgba(255, 255, 255, 0.3);
 }
