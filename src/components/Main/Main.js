@@ -81,12 +81,21 @@ class Main extends Component {
     const listByIngr = await getCocktailsByIngrs(ingr)
     const cocktailsList = await filterListByIngrs(list, listByIngr)
     
+    // Remove ingredients and category when no cocktails found
     let ingredients
-    (cocktailsList.length > 0) ? ingredients = this.state.ingredients : ingredients = []
+    let category
+    if (cocktailsList.length > 0) {
+      ingredients = this.state.ingredients
+      category = this.state.category
+    } else {
+      ingredients = []
+      category = ''
+    }
     
     this.setState({
         cocktailsList: cocktailsList,
-        ingredients: ingredients
+        ingredients: ingredients,
+        category: category
     })
   }
 
