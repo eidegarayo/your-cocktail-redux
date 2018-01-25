@@ -1,6 +1,7 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
-import { cocktailIngrs } from '../../../utils/utils'
+import { cocktailIngrs } from '../../../utils'
 
 import './Photo.css'
 
@@ -43,4 +44,10 @@ const Photo = props => {
   }
 }
 
-export default Photo
+function mapStateToProps (state) {
+  return {
+    cocktail: state.cocktail
+  }
+}
+
+export default connect(mapStateToProps)(Photo)
